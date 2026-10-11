@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeSaathi AI — Learn Code. Understand Better. Build Smarter.</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== SIDEBAR NAV ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">⟨/⟩</span>
+      <span class="brand-name">CodeSaathi<span class="brand-ai"> AI</span></span>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" data-section="learn" onclick="showSection('learn')">
+        <span class="nav-icon">📚</span> Learn
+      </button>
+      <button class="nav-btn" data-section="explainer" onclick="showSection('explainer')">
+        <span class="nav-icon">🔍</span> Code Explainer
+      </button>
+      <button class="nav-btn" data-section="errors" onclick="showSection('errors')">
+        <span class="nav-icon">🐛</span> Error Guide
+      </button>
+      <button class="nav-btn" data-section="practice" onclick="showSection('practice')">
+        <span class="nav-icon">✏️</span> Practice
+      </button>
+      <button class="nav-btn" data-section="progress" onclick="showSection('progress')">
+        <span class="nav-icon">📊</span> Progress
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <span class="disclaimer-badge">✦ Curated Content · No AI API</span>
+    </div>
+  </aside>
+
+  <!-- ===== MOBILE TOP BAR ===== -->
+  <header class="mobile-header">
+    <button class="hamburger" onclick="toggleMobileSidebar()" aria-label="Open menu">☰</button>
+    <span class="mobile-brand">CodeSaathi <span class="brand-ai">AI</span></span>
+  </header>
+
+  <!-- ===== MOBILE OVERLAY ===== -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    <!-- ── LEARN ── -->
+    <section id="section-learn" class="section active">
+      <div class="section-header">
+        <h1>Programming Concepts</h1>
+        <p class="section-sub">Pick a topic below to read a clear, beginner-friendly explanation.</p>
+      </div>
+
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterConcepts('all', this)">All</button>
+        <button class="filter-btn" onclick="filterConcepts('python', this)">Python</button>
+        <button class="filter-btn" onclick="filterConcepts('javascript', this)">JavaScript</button>
+        <button class="filter-btn" onclick="filterConcepts('general', this)">General CS</button>
+      </div>
+
+      <div class="cards-grid" id="conceptsGrid"></div>
+    </section>
+
+    <!-- ── CODE EXPLAINER ── -->
+    <section id="section-explainer" class="section">
+      <div class="section-header">
+        <h1>Code Explainer</h1>
+        <p class="section-sub">Select a code example and read what each line does — explained in plain English.</p>
+      </div>
+      <div class="info-banner">
+        ℹ️ <strong>How this works:</strong> This tool uses hand-written, curated explanations for pre-loaded examples. It does not execute code or use an AI model.
+      </div>
+      <div class="explainer-layout">
+        <div class="explainer-picker">
+          <label class="input-label" for="codeSelect">Choose a code example:</label>
+          <select id="codeSelect" class="styled-select" onchange="loadCodeExample()">
+            <option value="">— Select an example —</option>
+          </select>
+        </div>
+        <div class="explainer-panels" id="explainerPanels" style="display:none">
+          <div class="panel">
+            <div class="panel-title">Code</div>
+            <pre id="codeDisplay" class="code-block"></pre>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Line-by-Line Explanation</div>
+            <div id="explanationDisplay" class="explanation-list"></div>
+          </div>
+        </div>
+        <p id="explainerPlaceholder" class="placeholder-text">Select an example above to see the explanation.</p>
+      </div>
+    </section>
+
+    <!-- ── ERROR GUIDE ── -->
+    <section id="section-errors" class="section">
+      <div class="section-header">
+        <h1>Common Error Guide</h1>
+        <p class="section-sub">Search for an error message or browse by category to understand what went wrong and how to fix it.</p>
+      </div>
+      <div class="search-row">
+        <input type="text" id="errorSearch" class="styled-input" placeholder="Type an error, e.g. SyntaxError, undefined, NullPointer…" oninput="searchErrors()" />
+        <button class="btn-secondary" onclick="clearErrorSearch()">Clear</button>
+      </div>
+      <div class="filter-row" style="margin-top:0.5rem">
+        <button class="filter-btn active" onclick="filterErrors('all', this)">All</button>
+        <button class="filter-btn" onclick="filterErrors('python', this)">Python</button>
+        <button class="filter-btn" onclick="filterErrors('javascript', this)">JavaScript</button>
+        <button class="filter-btn" onclick="filterErrors('general', this)">General</button>
+      </div>
+      <div id="errorResults" class="cards-grid"></div>
+      <p id="errorNoResult" class="placeholder-text" style="display:none">No matching errors found. Try a different search term.</p>
+    </section>
+
+    <!-- ── PRACTICE ── -->
+    <section id="section-practice" class="section">
+      <div class="section-header">
+        <h1>Practice Exercises</h1>
+        <p class="section-sub">Test your knowledge with beginner-level questions. Hints and answers are available.</p>
+      </div>
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterExercises('all', this)">All Topics</button>
+        <button class="filter-btn" onclick="filterExercises('variables', this)">Variables</button>
+        <button class="filter-btn" onclick="filterExercises('loops', this)">Loops</button>
+        <button class="filter-btn" onclick="filterExercises('functions', this)">Functions</button>
+        <button class="filter-btn" onclick="filterExercises('arrays', this)">Arrays</button>
+      </div>
+      <div id="exerciseContainer"></div>
+    </section>
+
+    <!-- ── PROGRESS ── -->
+    <section id="section-progress" class="section">
+      <div class="section-header">
+        <h1>Your Learning Progress</h1>
+        <p class="section-sub">Track the concepts you've read and the exercises you've completed.</p>
+      </div>
+      <div class="progress-stats" id="progressStats"></div>
+      <div class="progress-topics" id="progressTopics"></div>
+      <button class="btn-danger" onclick="resetProgress()">🗑️ Reset All Progress</button>
+    </section>
+
+  </main>
+
+  <!-- ===== CONCEPT MODAL ===== -->
+  <div class="modal-overlay" id="conceptModal" onclick="closeConceptModal(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeConceptModal(null)">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
